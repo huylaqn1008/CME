@@ -1,10 +1,10 @@
-# Ignore tất cả node_modules
+# Ignore tất cả node_modules trong mọi thư mục con
 **/node_modules/
 
-# Ignore tất cả .env files trong các thư mục con
+# Ignore tất cả .env trong mọi thư mục
 **/.env
 
-# Ngoài ra ignore thêm các file hệ thống tạm thời nếu cần
+# Một số ignore khác (tùy chọn)
 .DS_Store
 .env.*
 dist/
