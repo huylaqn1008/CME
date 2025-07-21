@@ -15,10 +15,20 @@ const getAllCourses = async (req, res) => {
       };
     }
 
-    const courses = await Course.find().populate("departments", "name");
+    const courses = await Course.find(query).populate("departments", "name");
     res.json(courses);
   } catch (err) {
     console.error("Lỗi khi lấy danh sách khóa học:", err);
+    res.status(500).json({ message: "Lỗi server" });
+  }
+};
+
+const getAllCoursesForAdmin = async (req, res) => {
+  try {
+    const courses = await Course.find().populate("departments", "name");
+    res.json(courses);
+  } catch (err) {
+    console.error("Lỗi khi lấy danh sách khóa học (admin):", err);
     res.status(500).json({ message: "Lỗi server" });
   }
 };
@@ -106,6 +116,7 @@ const deleteCourse = async (req, res) => {
 
 module.exports = {
   getAllCourses,
+  getAllCoursesForAdmin,
   createCourse,
   updateCourse,
   deleteCourse,

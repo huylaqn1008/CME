@@ -27,6 +27,9 @@ export default function Navbar() {
                   <Link to="/admin/courses" className="text-gray-700 hover:text-blue-500">
                     Quản lý khoá học
                   </Link>
+                  <Link to="/user/courses" className="text-gray-700 hover:text-blue-500">
+                    Quản lý khoá học
+                  </Link>
                 </>
               )}
 

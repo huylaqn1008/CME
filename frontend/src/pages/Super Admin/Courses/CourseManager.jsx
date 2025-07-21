@@ -39,7 +39,7 @@ export default function CourseManagement() {
       const token = localStorage.getItem("token");
       console.log("Fetching courses with token:", token); // Debug
 
-      const res = await axios.get("http://localhost:5000/api/courses", {
+      const res = await axios.get("http://localhost:5000/api/courses/admin", {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -434,14 +434,16 @@ export default function CourseManagement() {
                         </div>
                       </td>
                       <td>
-                        {course.departments && course.departments.length > 0 ? (
-                          course.departments.map(dept => (
-                            <span key={dept._id || dept} className="department-badge">
-                              {typeof dept === 'object' ? dept.name : dept}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="department-badge all">Toàn bệnh viện</span>
+                        {departments.length > 0 && (
+                          (!course.departments || course.departments.length === 0 || course.departments.length === departments.length) ? (
+                            <span className="department-badge all">Toàn bệnh viện</span>
+                          ) : (
+                            course.departments.map(dept => (
+                              <span key={dept._id || dept} className="department-badge">
+                                {typeof dept === 'object' ? dept.name : dept}
+                              </span>
+                            ))
+                          )
                         )}
                       </td>
                       <td>{formatDate(course.registration_open)}</td>

@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../middleware/AuthMiddleware");
 const {
   getAllCourses,
+  getAllCoursesForAdmin,
   createCourse,
   updateCourse,
   deleteCourse,
@@ -10,6 +11,7 @@ const {
 
 // Bảo vệ tất cả routes bằng authMiddleware
 router.get("/", authMiddleware, getAllCourses);
+router.get("/admin", authMiddleware, getAllCoursesForAdmin);
 router.post("/", authMiddleware, createCourse);
 router.put("/:id", authMiddleware, updateCourse);
 router.delete("/:id", authMiddleware, deleteCourse);

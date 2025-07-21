@@ -11,6 +11,7 @@ import AuthProvider from "./contexts/AuthContext";
 import DepartmentManager from "./pages/Super Admin/Departments/DepartmentManager.jsx";
 import UserManager from "./pages/Super Admin/Users/UserManager.jsx"
 import CourseManagement from "./pages/Super Admin/Courses/CourseManager.jsx";
+import CourseList from "./pages/User/CourseList.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/admin/users" element={<UserManager />} />
         <Route path="/admin/departments" element={<DepartmentManager />} />
         <Route path="/admin/courses" element={<CourseManagement />} />
+        <Route path="/user/courses" element={<CourseList />} />
       </Routes>
     </AuthProvider>
   </BrowserRouter>
