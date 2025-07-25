@@ -6,6 +6,7 @@ import DepartmentMultiSelect from "./DepartmentMultiSelect";
 
 export default function CourseManagement() {
   const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -20,7 +21,6 @@ export default function CourseManagement() {
     status: "pending",
   });
   const [editingId, setEditingId] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [departments, setDepartments] = useState([]);
 
   const token = localStorage.getItem("token");
@@ -100,13 +100,35 @@ export default function CourseManagement() {
   }, []); // Bỏ dependency token để chỉ chạy 1 lần khi mount
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (message.text) setMessage({ text: "", type: "" }); // reset lỗi khi sửa input
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    // Kiểm tra điều kiện ngày giờ
+    const now = new Date();
+    const open = new Date(formData.registration_open);
+    const close = new Date(formData.registration_close);
+    const event = new Date(formData.course_datetime);
+
+    if (open <= now) {
+      setMessage({ text: "❌ Thời gian mở đăng ký phải lớn hơn hiện tại!", type: "error" });
+      setIsLoading(false);
+      return;
+    }
+    if (close <= open) {
+      setMessage({ text: "❌ Thời gian đóng đăng ký phải lớn hơn thời gian mở đăng ký!", type: "error" });
+      setIsLoading(false);
+      return;
+    }
+    if (event <= close) {
+      setMessage({ text: "❌ Thời gian diễn ra khoá học phải lớn hơn thời gian đóng đăng ký!", type: "error" });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");

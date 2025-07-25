@@ -34,6 +34,7 @@ const courseSchema = new Schema({
     enum: ["pending", "open", "closed", "completed", "cancelled"],
     default: "pending",
   },
+  registered_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
   created_at: { type: Date, default: Date.now },
 });

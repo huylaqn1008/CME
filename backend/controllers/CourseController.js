@@ -4,14 +4,14 @@ const Course = require("../models/CourseModel");
 const getAllCourses = async (req, res) => {
   try {
     const userDepartment = req.user.department_id; // Giả sử user có trường department_id
-    
+
     let query = {};
     if (userDepartment) {
       query = {
         $or: [
           { departments: { $in: [userDepartment] } },
-          { departments: { $size: 0 } } // Các khóa học không giới hạn khoa
-        ]
+          { departments: { $size: 0 } }, // Các khóa học không giới hạn khoa
+        ],
       };
     }
 
@@ -114,10 +114,72 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+// Đăng ký khóa học
+const registerCourse = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const courseId = req.params.id;
+
+    const course = await Course.findById(courseId);
+    if (!course)
+      return res.status(404).json({ message: "Không tìm thấy khoá học" });
+
+    if (course.registered_users.includes(userId)) {
+      return res.status(400).json({ message: "Bạn đã đăng ký khoá học này" });
+    }
+
+    if (course.status !== "open") {
+      return res.status(400).json({ message: "Khoá học chưa mở đăng ký" });
+    }
+
+    const now = new Date();
+    if (now < course.registration_open || now > course.registration_close) {
+      return res.status(400).json({ message: "Không nằm trong thời gian đăng ký" });
+    }
+
+    course.registered_users.push(userId);
+    await course.save();
+
+    res.json({ message: "Đăng ký thành công!" });
+  } catch (err) {
+    console.error("Lỗi đăng ký khoá học:", err);
+    res.status(500).json({ message: "Lỗi server khi đăng ký khoá học" });
+  }
+};
+
+// Lấy danh sách khóa học mà user đã đăng ký
+const getUserRegistrations = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Tìm tất cả khóa học mà user đã đăng ký
+    const registeredCourses = await Course.find({
+      registered_users: { $in: [userId] }
+    }).select('_id title status course_datetime');
+
+    // Trả về danh sách với format phù hợp cho frontend
+    const registrations = registeredCourses.map(course => ({
+      course_id: course._id,
+      courseId: course._id, // Backup field name
+      _id: course._id, // Backup field name
+      title: course.title,
+      status: course.status,
+      course_datetime: course.course_datetime
+    }));
+
+    res.json(registrations);
+  } catch (err) {
+    console.error("Lỗi khi lấy danh sách đăng ký:", err);
+    res.status(500).json({ message: "Lỗi server khi lấy danh sách đăng ký" });
+  }
+};
+
 module.exports = {
   getAllCourses,
   getAllCoursesForAdmin,
   createCourse,
   updateCourse,
   deleteCourse,
+  registerCourse,
+  getUserRegistrations,
 };
