@@ -203,20 +203,28 @@ const CourseList = () => {
   const isUserRegistered = (course) => {
     const userId = localStorage.getItem("userId");
     
+    // Kiểm tra nếu userId null hoặc course._id null
+    if (!userId || !course._id) {
+      return false;
+    }
+    
     // Kiểm tra trong state registeredCourseIds (đã được đồng bộ với localStorage)
     const isInRegisteredList = registeredCourseIds.includes(course._id);
     
     // Kiểm tra trong course.registered_users (backup)
-    const isInCourseUsers = course.registered_users?.some((id) => 
-      id.toString() === userId?.toString()
-    );
+    const isInCourseUsers = course.registered_users?.some((id) => {
+      // Kiểm tra null/undefined trước khi gọi toString()
+      if (!id || !userId) return false;
+      return id.toString() === userId.toString();
+    });
     
     const result = isInRegisteredList || isInCourseUsers;
     console.log(`Course ${course.title} - User registered:`, result, {
       isInRegisteredList,
       isInCourseUsers,
       registeredCourseIds,
-      courseId: course._id
+      courseId: course._id,
+      userId
     }); // Debug log
     
     return result;

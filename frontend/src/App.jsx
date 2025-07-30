@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import "./App.css";
 
 export default function App() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Navbar />
-      <div className="max-w-2xl mx-auto p-4">
+    <>
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+      <main className={`main-content ${collapsed ? "collapsed" : ""}`}>
         <Outlet />
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

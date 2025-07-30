@@ -17,15 +17,18 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthProvider>
       <Routes>
+        {/* Tất cả route có Sidebar */}
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
+          <Route path="admin/users" element={<UserManager />} />
+          <Route path="admin/departments" element={<DepartmentManager />} />
+          <Route path="admin/courses" element={<CourseManagement />} />
+          <Route path="user/courses" element={<CourseList />} />
         </Route>
+
+        {/* Các route không có Sidebar */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/admin/users" element={<UserManager />} />
-        <Route path="/admin/departments" element={<DepartmentManager />} />
-        <Route path="/admin/courses" element={<CourseManagement />} />
-        <Route path="/user/courses" element={<CourseList />} />
       </Routes>
     </AuthProvider>
   </BrowserRouter>
