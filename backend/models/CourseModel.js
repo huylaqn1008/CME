@@ -31,10 +31,21 @@ const courseSchema = new Schema({
 
   status: {
     type: String,
-    enum: ["pending", "open", "closed", "completed", "cancelled"],
+    enum: ["pending", "open", "closed", "completed", "cancelled", "live"],
     default: "pending",
   },
   registered_users: [{ type: Schema.Types.ObjectId, ref: "User" }],
+
+  // Live session fields
+  meeting_room_id: { type: String, unique: true, sparse: true },
+  is_live: { type: Boolean, default: false },
+  live_session_url: String,
+  live_started_at: Date,
+  live_ended_at: Date,
+  instructor_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  },
 
   created_at: { type: Date, default: Date.now },
 });

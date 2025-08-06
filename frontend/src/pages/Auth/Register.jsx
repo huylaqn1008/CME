@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import apiClient from "../../config/api";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -15,11 +15,12 @@ export default function Register() {
 
     const [departments, setDepartments] = useState([]);
     const [message, setMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     // Lấy danh sách khoa từ server
     useEffect(() => {
-        axios
-            .get("http://localhost:5000/api/departments")
+        apiClient
+            .get("/api/departments")
             .then((res) => setDepartments(res.data))
             .catch(() =>
                 setMessage("❌ Không thể tải danh sách khoa. Vui lòng thử lại sau.")
@@ -32,19 +33,24 @@ export default function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setMessage("");
 
         const { full_name, email, password, department_name } = form;
 
         // Kiểm tra đầu vào
         if (!full_name || !email || !password || !department_name) {
+            setIsLoading(false);
             return setMessage("❌ Vui lòng điền đầy đủ thông tin");
         }
 
         if (!email.includes("@")) {
+            setIsLoading(false);
             return setMessage("❌ Email không hợp lệ");
         }
 
         if (password.length < 6) {
+            setIsLoading(false);
             return setMessage("❌ Mật khẩu phải ít nhất 6 ký tự");
         }
 
@@ -53,14 +59,12 @@ export default function Register() {
         );
 
         if (!isValidDepartment) {
+            setIsLoading(false);
             return setMessage("❌ Khoa không hợp lệ. Vui lòng chọn từ danh sách.");
         }
 
         try {
-            const res = await axios.post(
-                "http://localhost:5000/api/auth/register",
-                form
-            );
+            const res = await apiClient.post("/api/auth/register", form);
             setMessage(res.data.message);
             setForm({
                 full_name: "",
@@ -74,7 +78,10 @@ export default function Register() {
                 navigate("/login");
             }, 1500);
         } catch (err) {
-            setMessage(err.response?.data?.message || "❌ Đăng ký thất bại");
+            console.error("Register error:", err);
+            setMessage(err.response?.data?.message || "❌ Đăng ký thất bại. Vui lòng kiểm tra kết nối mạng.");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -89,6 +96,8 @@ export default function Register() {
                     name="full_name"
                     value={form.full_name}
                     onChange={handleChange}
+                    disabled={isLoading}
+                    required
                 />
                 <input
                     type="email"
@@ -97,6 +106,8 @@ export default function Register() {
                     name="email"
                     value={form.email}
                     onChange={handleChange}
+                    disabled={isLoading}
+                    required
                 />
                 <input
                     type="password"
@@ -105,6 +116,8 @@ export default function Register() {
                     name="password"
                     value={form.password}
                     onChange={handleChange}
+                    disabled={isLoading}
+                    required
                 />
 
                 <select
@@ -112,6 +125,8 @@ export default function Register() {
                     className="w-full border p-2"
                     value={form.department_name}
                     onChange={handleChange}
+                    disabled={isLoading}
+                    required
                 >
                     <option value="">-- Chọn khoa --</option>
                     {departments.map((dep) => (
@@ -123,9 +138,10 @@ export default function Register() {
 
                 <button
                     type="submit"
-                    className="bg-green-600 text-white px-4 py-2 rounded"
+                    className="bg-green-600 text-white px-4 py-2 rounded disabled:bg-gray-400"
+                    disabled={isLoading}
                 >
-                    Đăng ký
+                    {isLoading ? "Đang đăng ký..." : "Đăng ký"}
                 </button>
             </form>
 

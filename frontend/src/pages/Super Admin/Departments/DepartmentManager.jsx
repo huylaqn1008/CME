@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../../config/api";
 import './DepartmentManager.css'
 
 export default function DepartmentManager() {
@@ -12,7 +12,7 @@ export default function DepartmentManager() {
   const fetchDepartments = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:5000/api/departments", {
+      const res = await apiClient.get("/api/departments", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -30,9 +30,8 @@ export default function DepartmentManager() {
   const handleAdd = async () => {
     if (!newName.trim()) return;
     try {
-      await axios.post("http://localhost:5000/api/departments",
-        { name: newName },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      await apiClient.post("/api/departments",
+        { name: newName }
       );
       setNewName("");
       setMessage("✅ Thêm khoa thành công");
@@ -45,9 +44,8 @@ export default function DepartmentManager() {
   const handleEdit = async () => {
     if (!editName.trim()) return;
     try {
-      await axios.put(`http://localhost:5000/api/departments/${editId}`,
-        { name: editName },
-        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      await apiClient.put(`/api/departments/${editId}`,
+        { name: editName }
       );
       setEditId(null);
       setEditName("");
@@ -61,7 +59,7 @@ export default function DepartmentManager() {
   const handleDelete = async (id) => {
     if (!window.confirm("Bạn có chắc chắn muốn xoá khoa này?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/departments/${id}`, {
+      await apiClient.delete(`/api/departments/${id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setMessage("🗑️ Đã xoá khoa");

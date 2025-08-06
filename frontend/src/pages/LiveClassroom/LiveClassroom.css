@@ -1,0 +1,887 @@
+/* LiveClassroom.css - Google Meet inspired design */
+.live-classroom {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  color: white;
+  overflow: hidden;
+}
+
+/* Header */
+.classroom-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #2d2d2d;
+  border-bottom: 1px solid #404040;
+  flex-shrink: 0;
+}
+
+.course-info h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.status-indicators {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.live-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.live-status.live {
+  background: #ff4444;
+  color: white;
+}
+
+.live-status.waiting {
+  background: #666;
+  color: white;
+}
+
+.connection-status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.connection-status.secure {
+  background: #22c55e;
+  color: white;
+}
+
+.connection-status.insecure {
+  background: #f59e0b;
+  color: white;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.participant-count {
+  background: #404040;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+}
+
+.instructor-controls button,
+.leave-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.start-live-btn {
+  background: #22c55e;
+  color: white;
+}
+
+.start-live-btn:hover {
+  background: #16a34a;
+}
+
+.end-live-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.end-live-btn:hover {
+  background: #dc2626;
+}
+
+.leave-btn {
+  background: #6b7280;
+  color: white;
+}
+
+.leave-btn:hover {
+  background: #4b5563;
+}
+
+/* HTTPS Warning Banner */
+.https-warning-banner {
+  background: linear-gradient(135deg, #ff9800, #f57c00);
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-weight: 500;
+  border-bottom: 2px solid #e65100;
+  animation: pulse 2s infinite;
+}
+
+.https-warning-banner code {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Error Content Styling */
+.live-classroom-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.error-content {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.error-content h2 {
+  color: #e53e3e;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.error-content p {
+  color: #4a5568;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* HTTPS Instructions */
+.https-instructions {
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.https-instructions h3 {
+  color: #2d3748;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.instruction-steps p {
+  margin: 10px 0;
+  color: #4a5568;
+}
+
+.instruction-steps code {
+  background: #edf2f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  color: #2d3748;
+  font-weight: bold;
+}
+
+.https-urls {
+  background: #e6fffa;
+  border: 1px solid #81e6d9;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.https-urls code {
+  background: #4fd1c7;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* Connection Status */
+.connection-status {
+  background: #f0fff4;
+  border: 2px solid #9ae6b4;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.connection-status p {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #2f855a;
+}
+
+.connection-status ul {
+  list-style: none;
+  padding: 0;
+}
+
+.connection-status li {
+  padding: 5px 0;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Back Button */
+.back-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* Status Indicators */
+.status-indicators {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.live-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.live-status.live {
+  background: #fed7d7;
+  color: #c53030;
+  animation: blink 1s infinite;
+}
+
+.live-status.waiting {
+  background: #fef5e7;
+  color: #d69e2e;
+}
+
+.connection-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.connection-status.secure {
+  background: #c6f6d5;
+  color: #2f855a;
+}
+
+.connection-status.insecure {
+  background: #fed7d7;
+  color: #c53030;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.5; }
+}
+
+/* Control Button Status Colors */
+.control-btn {
+  background: #4a5568;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+
+.control-btn:hover {
+  transform: scale(1.1);
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-btn.active {
+  background: #48bb78;
+}
+
+.control-btn.muted {
+  background: #e53e3e;
+}
+
+.control-btn.disabled {
+  background: #a0aec0;
+}
+
+/* Video Status Icons */
+.video-status {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.video-off-icon,
+.audio-off-icon,
+.loading-icon,
+.secure-icon {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.secure-icon {
+  background: #48bb78;
+}
+
+.loading-icon {
+  background: #ed8936;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Main Content */
+.classroom-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.video-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  position: relative;
+}
+
+.video-area.with-chat {
+  border-right: 1px solid #404040;
+}
+
+.video-area.full-width {
+  width: 100%;
+}
+
+/* View Controls */
+.view-controls {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: #2d2d2d;
+  border-bottom: 1px solid #404040;
+}
+
+.view-controls button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #404040;
+  background: transparent;
+  color: #9aa0a6;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-controls button.active,
+.view-controls button:hover {
+  background: #404040;
+  color: white;
+  border-color: #666;
+}
+
+/* Video Grid */
+.video-grid {
+  flex: 1;
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.video-grid.grid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: minmax(200px, 1fr);
+}
+
+.video-grid.speaker {
+  grid-template-columns: 1fr 200px;
+  grid-template-rows: 1fr auto;
+}
+
+.video-grid.speaker .video-container:first-child {
+  grid-row: 1 / -1;
+}
+
+/* Video Container */
+.video-container {
+  position: relative;
+  background: #2d2d2d;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.video-container.local {
+  border-color: #22c55e;
+}
+
+.video-container:hover {
+  border-color: #404040;
+}
+
+.video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #1a1a1a;
+}
+
+.video-element.video-hidden {
+  display: none;
+}
+
+.video-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2d2d2d, #1a1a1a);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+}
+
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.participant-name {
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.instructor-badge {
+  margin-left: 0.5rem;
+  background: #f59e0b;
+  padding: 0.125rem 0.375rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+}
+
+.video-status {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.video-status span {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0.25rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.video-off-icon {
+  color: #ef4444;
+}
+
+.audio-off-icon {
+  color: #f59e0b;
+}
+
+.loading-icon {
+  color: #6b7280;
+}
+
+.secure-icon {
+  color: #22c55e;
+}
+
+/* Chat Panel */
+.chat-panel {
+  width: 350px;
+  background: #2d2d2d;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #404040;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #404040;
+}
+
+.chat-header h3 {
+  margin: 0;
+  color: white;
+}
+
+.close-chat {
+  background: none;
+  border: none;
+  color: #9aa0a6;
+  cursor: pointer;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.close-chat:hover {
+  background: #404040;
+  color: white;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chat-message {
+  background: #1a1a1a;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border-left: 3px solid #6366f1;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.sender-name {
+  font-weight: 600;
+  color: #6366f1;
+  font-size: 0.875rem;
+}
+
+.message-time {
+  color: #9aa0a6;
+  font-size: 0.75rem;
+}
+
+.message-content {
+  color: white;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.chat-input {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid #404040;
+  gap: 0.5rem;
+}
+
+.chat-input input {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #404040;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.chat-input input:focus {
+  border-color: #6366f1;
+}
+
+.chat-input input::placeholder {
+  color: #9aa0a6;
+}
+
+.chat-input button {
+  background: #6366f1;
+  border: none;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-input button:hover:not(:disabled) {
+  background: #5b21b6;
+}
+
+.chat-input button:disabled {
+  background: #404040;
+  cursor: not-allowed;
+}
+
+/* Bottom Controls */
+.bottom-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #2d2d2d;
+  border-top: 1px solid #404040;
+  flex-shrink: 0;
+}
+
+.media-controls,
+.secondary-controls {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.control-btn {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-btn.active {
+  background: #22c55e;
+  color: white;
+}
+
+.control-btn.muted {
+  background: #ef4444;
+  color: white;
+}
+
+.control-btn.disabled {
+  background: #6b7280;
+  color: white;
+}
+
+.control-btn:not(.active):not(.muted):not(.disabled) {
+  background: #404040;
+  color: #9aa0a6;
+}
+
+.control-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+/* Loading and Error States */
+.live-classroom-loading,
+.live-classroom-error {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  color: white;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #404040;
+  border-top: 4px solid #6366f1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-content {
+  text-align: center;
+  max-width: 500px;
+  padding: 2rem;
+}
+
+.error-content h2 {
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.error-content p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.https-warning {
+  background: #2d2d2d;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.https-warning h3 {
+  color: #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.https-warning p {
+  margin-bottom: 0.5rem;
+}
+
+.https-warning code {
+  background: #1a1a1a;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  color: #22c55e;
+  font-family: 'Courier New', monospace;
+}
+
+.back-btn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+  background: #5b21b6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .classroom-header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .classroom-content {
+    flex-direction: column;
+  }
+
+  .chat-panel {
+    width: 100%;
+    height: 300px;
+  }
+
+  .video-grid.grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-controls {
+    padding: 1rem;
+  }
+
+  .control-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .https-warning-banner {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+  
+  .error-content {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .https-instructions,
+  .connection-status {
+    padding: 15px;
+  }
+  
+  .instruction-steps p {
+    font-size: 14px;
+  }
+}

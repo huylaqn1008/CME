@@ -1,30 +1,37 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext"; // 👈 nếu có context
+import { AuthContext } from "../../contexts/AuthContext";
+import apiClient from "../../config/api";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); // 👈 Gọi hàm login từ context
+  const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setMessage("");
+
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
+      const res = await apiClient.post("/api/auth/login", {
         email,
         password,
       });
 
       localStorage.setItem("token", res.data.token);
-      login(res.data.user); // 👈 Gọi hàm login từ context để cập nhật Navbar
+      login(res.data.user);
       setMessage(res.data.message);
-      navigate("/"); // 👈 Không cần delay
+      navigate("/");
     } catch (err) {
-      setMessage(err.response?.data?.message || "Lỗi khi đăng nhập");
+      console.error("Login error:", err);
+      setMessage(err.response?.data?.message || "Lỗi khi đăng nhập. Vui lòng kiểm tra kết nối mạng.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -38,6 +45,8 @@ export default function Login() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+          required
         />
         <input
           type="password"
@@ -45,9 +54,15 @@ export default function Login() {
           placeholder="Mật khẩu"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+          required
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-          Đăng nhập
+        <button 
+          type="submit" 
+          className="bg-blue-600 text-white px-4 py-2 rounded disabled:bg-gray-400"
+          disabled={isLoading}
+        >
+          {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
         </button>
       </form>
       {message && (

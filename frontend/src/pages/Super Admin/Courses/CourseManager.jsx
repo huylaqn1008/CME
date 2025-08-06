@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../../config/api";
 import { format } from "date-fns";
 import "./CourseManager.css";
 import DepartmentMultiSelect from "./DepartmentMultiSelect";
@@ -39,7 +39,7 @@ export default function CourseManagement() {
       const token = localStorage.getItem("token");
       console.log("Fetching courses with token:", token); // Debug
 
-      const res = await axios.get("http://localhost:5000/api/courses/admin", {
+      const res = await apiClient.get("/api/courses/admin", {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ export default function CourseManagement() {
     // Thêm fetch departments nếu cần
     const fetchDepartments = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/departments", {
+        const res = await apiClient.get("/api/departments", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setDepartments(res.data);
@@ -142,12 +142,12 @@ export default function CourseManagement() {
       dataToSend.course_datetime = new Date(dataToSend.course_datetime).toISOString();
 
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/courses/${editingId}`, dataToSend, {
+        await apiClient.put(`/api/courses/${editingId}`, dataToSend, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage({ text: "✅ Cập nhật khóa học thành công", type: "success" });
       } else {
-        await axios.post("http://localhost:5000/api/courses", dataToSend, {
+        await apiClient.post("/api/courses", dataToSend, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMessage({ text: "✅ Tạo khóa học thành công", type: "success" });
@@ -185,7 +185,7 @@ export default function CourseManagement() {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("No token found");
 
-      await axios.delete(`http://localhost:5000/api/courses/${id}`, {
+      await apiClient.delete(`/api/courses/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMessage({ text: "🗑️ Đã xoá khóa học", type: "success" });

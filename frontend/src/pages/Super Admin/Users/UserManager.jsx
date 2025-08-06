@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import apiClient from "../../../config/api";
 import "./UserManager.css";
 
 export default function AdminUsers() {
@@ -21,13 +21,9 @@ export default function AdminUsers() {
 
   const [filterRole, setFilterRole] = useState("");
 
-  const token = localStorage.getItem("token");
-
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/users", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiClient.get("/api/users");
       setAllUsers(res.data.users || []);
     } catch (err) {
       setMessage("❌ Lỗi khi tải danh sách người dùng");
@@ -36,9 +32,7 @@ export default function AdminUsers() {
 
   const fetchRoles = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/roles", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await apiClient.get("/api/roles");
       const filtered = res.data.filter(
         (role) => role.name.toLowerCase() !== "super admin"
       );
@@ -60,12 +54,9 @@ export default function AdminUsers() {
     }
 
     try {
-      const res = await axios.patch(
-        `http://localhost:5000/api/users/${userId}/role`,
-        { new_role_name: selectedRole },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+      const res = await apiClient.patch(
+        `/api/users/${userId}/role`,
+        { new_role_name: selectedRole }
       );
       setMessage(res.data.message);
       fetchUsers();
@@ -83,12 +74,9 @@ export default function AdminUsers() {
     }
 
     try {
-      const res = await axios.patch(
-        `http://localhost:5000/api/users/${selectedUserToToggle.id}/status`,
-        { reason: statusReason },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+      const res = await apiClient.patch(
+        `/api/users/${selectedUserToToggle.id}/status`,
+        { reason: statusReason }
       );
       setMessage(res.data.message);
       fetchUsers();
